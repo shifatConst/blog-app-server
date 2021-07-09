@@ -24,6 +24,11 @@ client.connect(err => {
   const blogsCollection = client.db("blog-app").collection("posts");
   console.log('database connected successfully');
 
+  app.post('/addBlog', (req, res) => {
+    const newBlog = req.body;
+    console.log('adding new blog', newBlog);
+  })
+
 });
 
 
