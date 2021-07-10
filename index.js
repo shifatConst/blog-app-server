@@ -42,7 +42,6 @@ client.connect(err => {
     .toArray((err, blogs) => {
       // console.log(err);
       res.send(blogs)
-      // console.log(blogs);
     })
   })
 
