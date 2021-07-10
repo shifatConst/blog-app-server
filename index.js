@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+// const MongoClient = require('mongodb').MongoClient;
+// const ObjectId = require('mongodb').ObjectId;
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -21,12 +23,18 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log('error message', err);
-  const blogsCollection = client.db("blog-app").collection("posts");
+  const blogsCollection = client.db("blog-app").collection("blogs");
   console.log('database connected successfully');
 
   app.post('/addBlog', (req, res) => {
     const newBlog = req.body;
     console.log('adding new blog', newBlog);
+
+    blogsCollection.insertOne(newBlog)
+    .then(result => {
+      console.log('inserted count', result);
+      res.send(result.insertedCount > 0)
+    })
   })
 
 });
