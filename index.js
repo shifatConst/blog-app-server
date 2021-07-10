@@ -37,6 +37,15 @@ client.connect(err => {
     })
   })
 
+  app.get('/allBlogs', (req, res) => {
+    blogsCollection.find({})
+    .toArray((err, blogs) => {
+      // console.log(err);
+      res.send(blogs)
+      // console.log(blogs);
+    })
+  })
+
 });
 
 
