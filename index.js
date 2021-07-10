@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 // const MongoClient = require('mongodb').MongoClient;
-// const ObjectId = require('mongodb').ObjectId;
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -35,7 +35,7 @@ client.connect(err => {
       console.log('inserted count', result);
       res.send(result.insertedCount > 0)
     })
-  })
+  });
 
   app.get('/allBlogs', (req, res) => {
     blogsCollection.find({})
@@ -43,7 +43,13 @@ client.connect(err => {
       // console.log(err);
       res.send(blogs)
     })
-  })
+  });
+
+  app.delete('/deleteBlog/:id', (req, res) => {
+    const id = ObjectId(req.params.id);
+    blogsCollection.findOneAndDelete({_id: id})
+    .then(blog => res.send(blog.value))
+  });
 
 });
 
