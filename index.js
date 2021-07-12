@@ -45,6 +45,16 @@ client.connect(err => {
     })
   });
 
+  app.get('/blogs/:id', (req, res) => {
+    const id = ObjectId(req.params.id);
+    blogsCollection.find({_id: id})
+    .toArray((err, blog) => {
+      console.log(err);
+      res.send(blog);
+      console.log('from database', blog);
+    })
+  });
+
   app.delete('/deleteBlog/:id', (req, res) => {
     const id = ObjectId(req.params.id);
     blogsCollection.findOneAndDelete({_id: id})
